@@ -66,12 +66,14 @@ def prep_telco():
                            + telco_db.streaming_movies_Yes 
                            + telco_db.internet_service_type_DSL 
                            + telco_db['internet_service_type_Fiber optic'])
+    telco_db.total_services = telco_db.total_services.astype(int)
     telco_db['total_extra_services'] = (telco_db.online_security_Yes 
                                 + telco_db.online_backup_Yes
                                 + telco_db.device_protection_Yes
                                 + telco_db.tech_support_Yes
                                 + telco_db.streaming_tv_Yes
                                 + telco_db.streaming_movies_Yes)
+    telco_db.total_extra_services = telco_db.total_extra_services.astype(int)
     return telco_db
 
 # =======================================================================================================
