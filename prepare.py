@@ -40,7 +40,7 @@ def prep_telco():
     consistent data structuring
     '''
     telco_db = acquire.get_telco_data()
-    telco_db = telco_db.drop(columns=['contract_type_id', 'payment_type_id', 'internet_service_type_id'])
+    telco_db = telco_db.drop(columns=['customer_id', 'contract_type_id', 'payment_type_id', 'internet_service_type_id'])
     clean_charges = []
     floatnumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.']
     for charge in telco_db.total_charges:
@@ -54,7 +54,9 @@ def prep_telco():
             clean_charges.append(None)
     telco_db.total_charges = clean_charges
     telco_db.total_charges = telco_db.total_charges.fillna(0)
-    dummies = pd.get_dummies(telco_db.drop(columns='customer_id').select_dtypes(include='object'))
+    telco_db.churn_month = pd.to_datetime(telco_db.churn_month)
+    telco_db.signup_date = pd.to_datetime(telco_db.signup_date)
+    dummies = pd.get_dummies(telco_db.select_dtypes(include='object'))
     telco_db = pd.concat([telco_db, dummies], axis=1)
     telco_db['total_services'] = (telco_db.phone_service_Yes 
                            + telco_db.multiple_lines_Yes
