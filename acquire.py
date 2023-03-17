@@ -44,13 +44,27 @@ def get_telco_data():
     else:
         telco_df = pd.read_sql(
             '''
-            SELECT 
-                * 
-            FROM 
-                customers 
+            SELECT
+                *
+            FROM
+                customers
+                LEFT JOIN (
+                        SELECT 
+                            customer_id, 
+                            STR_TO_DATE(churn_month, '%Y%m%d') AS churn_month 
+                        FROM 
+                            customer_churn
+                            ) AS A USING(customer_id)
+                LEFT JOIN (
+                        SELECT 
+                            customer_id, 
+                            STR_TO_DATE(signup_date, '%Y%m%d') AS signup_date 
+                        FROM 
+                            customer_signups
+                            ) AS B USING(customer_id)
+                LEFT JOIN contract_types USING(contract_type_id)
                 LEFT JOIN internet_service_types USING(internet_service_type_id)
                 LEFT JOIN payment_types USING(payment_type_id)
-                LEFT JOIN contract_types USING(contract_type_id)
             ''', env.get_db_url('telco_churn')
         )
         telco_df.to_csv('telco.csv')
