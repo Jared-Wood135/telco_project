@@ -27,6 +27,7 @@ the initial data for anyone attempting to replicate the process...
 
 import pandas as pd
 import acquire
+from sklearn.model_selection import train_test_split
 
 # =======================================================================================================
 # Imports END
@@ -76,8 +77,24 @@ def prep_telco():
                                 + telco_db.streaming_tv_Yes
                                 + telco_db.streaming_movies_Yes)
     telco_db.total_extra_services = telco_db.total_extra_services.astype(int)
+    telco_db.columns = telco_db.columns.str.replace(' ', '_')
     return telco_db
 
 # =======================================================================================================
 # prep_telco END
+# prep_telco TO prep_split
+# prep_split START
+# =======================================================================================================
+
+def split(df, stratify):
+    '''
+    Takes a dataframe and splits the data into a train, validate and test datasets
+    '''
+    train_val, test = train_test_split(df, train_size=0.8, random_state=1349, stratify=df[stratify])
+    train, validate = train_test_split(train_val, train_size=0.7, random_state=1349, stratify=train_val[stratify])
+    print(f"train.shape:{train.shape}\nvalidate.shape:{validate.shape}\ntest.shape:{test.shape}")
+    return train, validate, test
+
+# =======================================================================================================
+# prep_split END
 # =======================================================================================================
