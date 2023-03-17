@@ -51,14 +51,14 @@ def get_telco_data():
                 LEFT JOIN (
                         SELECT 
                             customer_id, 
-                            STR_TO_DATE(churn_month, '%Y%m%d') AS churn_month 
+                            DATE(churn_month) AS churn_month 
                         FROM 
                             customer_churn
                             ) AS A USING(customer_id)
                 LEFT JOIN (
                         SELECT 
                             customer_id, 
-                            STR_TO_DATE(signup_date, '%Y%m%d') AS signup_date 
+                            DATE(signup_date) AS signup_date 
                         FROM 
                             customer_signups
                             ) AS B USING(customer_id)
