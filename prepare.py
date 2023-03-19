@@ -57,6 +57,10 @@ def prep_telco():
     telco_db.total_charges = telco_db.total_charges.fillna(0)
     telco_db.churn_month = pd.to_datetime(telco_db.churn_month)
     telco_db.signup_date = pd.to_datetime(telco_db.signup_date)
+    telco_db['sign_year'] = pd.DatetimeIndex(telco_db['signup_date']).year.astype('object')
+    telco_db['sign_month'] = pd.DatetimeIndex(telco_db['signup_date']).month.astype('object')
+    telco_db['sign_day'] = pd.DatetimeIndex(telco_db['signup_date']).day.astype('object')
+    telco_db['sign_dayofweek'] = pd.DatetimeIndex(telco_db['signup_date']).dayofweek.astype('object')
     dummies = pd.get_dummies(telco_db.select_dtypes(include='object'))
     telco_db = pd.concat([telco_db, dummies], axis=1)
     telco_db['total_services'] = (telco_db.phone_service_Yes 
@@ -77,6 +81,8 @@ def prep_telco():
                                 + telco_db.streaming_tv_Yes
                                 + telco_db.streaming_movies_Yes)
     telco_db.total_extra_services = telco_db.total_extra_services.astype(int)
+    telco_db['value_per_total_services'] = telco_db.monthly_charges / telco_db.total_services
+    telco_db['value_per_total_extra_services'] = telco_db.monthly_charges / telco_db.total_extra_services
     telco_db.columns = telco_db.columns.str.replace(' ', '_')
     return telco_db
 
