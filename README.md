@@ -284,6 +284,8 @@ Questions:
 
 - Why does everyone only signup on the 21st of any given month/year
 - Why did everyone churn on 31JAN2022
+- What happened in 2021
+- Why is tenure getting shorter, but monthly_charges are dropping
 - Get prices of all services
 - Check for customer comments/sentiment
 - Check for local competition

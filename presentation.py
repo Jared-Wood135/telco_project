@@ -48,13 +48,14 @@ import prepare
 
 def explore():
     telco = prepare.prep_telco()
-    top4 = [
+    top5 = [
         'contract_type',
         'sign_year',
         'tenure',
-        'internet_service_type'
+        'internet_service_type',
+        'payment_type'
     ]
-    for x in top4:
+    for x in top5:
         sns.histplot(data=telco, x=x, hue='churn', multiple='dodge')
         plt.title(f'{x} vs. churn')
         plt.show()
