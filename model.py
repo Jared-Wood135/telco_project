@@ -55,6 +55,9 @@ import explore
 # =======================================================================================================
 
 def decisiontree_model_iterator(df, x_col, y_col, stratify, mindepthrange, maxdepthrange):
+    '''
+    Not completed
+    '''
     # VVV Variables VVV
     train, validate, test = prepare.split(df, stratify)
     x_train = train[x_col]

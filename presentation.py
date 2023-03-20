@@ -47,6 +47,9 @@ import prepare
 # =======================================================================================================
 
 def explore():
+    '''
+    Returns the top 5 features based on lowest p-value and visualizes them along with their p-value
+    '''
     telco = prepare.prep_telco()
     top5 = [
         'contract_type',
@@ -74,6 +77,9 @@ def explore():
 # =======================================================================================================
 
 def top3models():
+    '''
+    Returns the top 3 models and their scores...
+    '''
     telco = prepare.prep_telco()
     train_val, test = train_test_split(telco, train_size=0.8, random_state=1349, stratify=telco['churn'])
     train, val = train_test_split(train_val, train_size=0.7, random_state=1349, stratify=train_val['churn'])
@@ -144,8 +150,7 @@ def top3models():
 
 def pred_csv():
     '''
-    Takes the 'telco.csv' dataframe from 'acquire.py' and prepares the dataframe for use with
-    consistent data structuring
+    Creates a predictions.csv with customer_id, actual churn, and predictions
     '''
     if os.path.exists('predictions.csv'):
         return pd.read_csv('predictions.csv', index_col=0)
