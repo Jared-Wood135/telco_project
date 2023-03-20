@@ -7,6 +7,7 @@
 2. Imports
 3. explore
 4. top3models
+5. pred_csv
 '''
 
 # =======================================================================================================
@@ -26,6 +27,8 @@ for easier presentation purposes
 # Imports START
 # =======================================================================================================
 
+import acquire
+import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -131,3 +134,92 @@ def top3models():
     scores['TP("No")'].append(TP)
     scores['TN("Yes")'].append(TN)
     return pd.DataFrame.from_dict(scores)
+
+# =======================================================================================================
+# top3models END
+# top3models TO pred_csv
+# pred_csv START
+# =======================================================================================================
+
+def pred_csv():
+    '''
+    Takes the 'telco.csv' dataframe from 'acquire.py' and prepares the dataframe for use with
+    consistent data structuring
+    '''
+    if os.path.exists('predictions.csv'):
+        return pd.read_csv('predictions.csv', index_col=0)
+    else:
+        telco_db = acquire.get_telco_data()
+        telco_db = telco_db.drop(columns=['contract_type_id', 'payment_type_id', 'internet_service_type_id'])
+        clean_charges = []
+        floatnumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.']
+        for charge in telco_db.total_charges:
+            valuestr = ''
+            for char in charge:
+                if char in floatnumbers:
+                    valuestr += char
+            if valuestr:
+                clean_charges.append(float(valuestr))
+            else:
+                clean_charges.append(None)
+        telco_db.total_charges = clean_charges
+        telco_db.total_charges = telco_db.total_charges.fillna(0)
+        telco_db.churn_month = pd.to_datetime(telco_db.churn_month)
+        telco_db.signup_date = pd.to_datetime(telco_db.signup_date)
+        telco_db['sign_year'] = pd.DatetimeIndex(telco_db['signup_date']).year.astype('object')
+        telco_db['sign_month'] = pd.DatetimeIndex(telco_db['signup_date']).month.astype('object')
+        telco_db['sign_day'] = pd.DatetimeIndex(telco_db['signup_date']).day.astype('object')
+        telco_db['sign_dayofweek'] = pd.DatetimeIndex(telco_db['signup_date']).dayofweek.astype('object')
+        dummies = pd.get_dummies(telco_db.drop(columns='customer_id').select_dtypes(include='object'))
+        telco_db = pd.concat([telco_db, dummies], axis=1)
+        telco_db['total_services'] = (telco_db.phone_service_Yes 
+                            + telco_db.multiple_lines_Yes
+                            + telco_db.online_security_Yes 
+                            + telco_db.online_backup_Yes
+                            + telco_db.device_protection_Yes
+                            + telco_db.tech_support_Yes
+                            + telco_db.streaming_tv_Yes
+                            + telco_db.streaming_movies_Yes 
+                            + telco_db.internet_service_type_DSL 
+                            + telco_db['internet_service_type_Fiber optic'])
+        telco_db.total_services = telco_db.total_services.astype(int)
+        telco_db['total_extra_services'] = (telco_db.online_security_Yes 
+                                    + telco_db.online_backup_Yes
+                                    + telco_db.device_protection_Yes
+                                    + telco_db.tech_support_Yes
+                                    + telco_db.streaming_tv_Yes
+                                    + telco_db.streaming_movies_Yes)
+        telco_db.total_extra_services = telco_db.total_extra_services.astype(int)
+        telco_db['value_per_total_services'] = telco_db.monthly_charges / telco_db.total_services
+        telco_db['value_per_total_extra_services'] = telco_db.monthly_charges / telco_db.total_extra_services
+        telco_db.columns = telco_db.columns.str.replace(' ', '_')
+        telco = telco_db
+        keylist = [
+        'online_security_No',
+        'online_backup_No',
+        'device_protection_No',
+        'tech_support_No',
+        'contract_type_Month-to-month',
+        'internet_service_type_Fiber_optic',
+        'payment_type_Electronic_check',
+        'sign_year',
+        'tenure',
+        'value_per_total_services'
+        ]
+        train_val, test = train_test_split(telco, train_size=0.8, random_state=1349, stratify=telco['churn'])
+        train, val = train_test_split(train_val, train_size=0.7, random_state=1349, stratify=train_val['churn'])
+        x_train = train[keylist]
+        y_train = train['churn']
+        x_test = test[keylist]
+        y_test = test['churn']  
+        rfc = RFC(max_depth=7, random_state=100)
+        rfc.fit(x_train, y_train)
+        model = rfc.predict(x_test)
+        predictions = test[['customer_id', 'churn']]
+        predictions['predictions'] = model
+        predictions.to_csv('predictions.csv')
+        return predictions
+
+# =======================================================================================================
+# pred_csv END
+# =======================================================================================================

@@ -140,6 +140,12 @@ Questions:
 | contract_type | object | str | Defines customer's contract type | 'Month-to-month' |
 | internet_service_type | object | str | Defines customer's internet service type | 'DSL' |
 | payment_type | object | str | Defines customer's payment type | 'Mailed Check' |
+| sign_year | object | str | Defines customer's signup year | 2021 |
+| sign_month | object | str | Defines customer's signup month | 12 |
+| sign_day | object | str | Defines customer's signup day | 21 |
+| sign_dayofweek | object | str | Defines customer's signup day-of-week | 0 (Monday) |
+| value_per_total_services | float | float | Defines the mean cost per service for the customer in USD | 12.87 |
+| value_per_total_extra_services | float | float | Defines the mean cost per extra service for the customer in USD | 12.87 |
 | DUMMY COLUMNS | uint | 0, 1 | Dummy columns generated from object columns | 0 |
 <br><br><br>
 
@@ -252,9 +258,9 @@ Questions:
 
 - Focus advertisement efforts towards families and couples and avoid older population
 - Market offers as single services or bundled services with at least 3 additional services
-- For customers, establish whether or not they desire additional internet services
-    - If yes, push bundles of at least 3 additional services
-    - If no, do not allow additional services between 1 and 2
+- For customers, that want internet services
+    - Get them to go with DSL services
+    - Minimum add-ons of 3
 - For paying customers:
     - Do not allow monthly contracts
     - Do not allow electronic check forms of payment
@@ -264,13 +270,21 @@ Questions:
 - Target audience:
     - Couples
     - Families/Dependents
+    - Non-senior citizen
 - Services Emphasis:
-    - Cell Services:
-        - Not much difference with/without/multiple
     - Internet Services:
-        - Either no internet or at least bundle 3 subs
+        - No internet or DSL
+        - No internet or at least bundle 3 add-ons
 - Payments:
     - DO NOT ALLOW ELECTRONIC CHECK
 - Contracts:
     - DO NOT ALLOW MONTH CONTRACT
-<br><br><br>
+<br><br>
+<h4><b>If I Had More Time:</b></h4>
+
+- Get prices of all services
+- Check for customer comments/sentiment
+- Check for local competition
+- Check for local 'common knowledge'/'norm'
+- Check advertisements
+<br><br>
