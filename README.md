@@ -282,6 +282,8 @@ Questions:
 <br><br>
 <h4><b>If I Had More Time:</b></h4>
 
+- Why does everyone only signup on the 21st of any given month/year
+- Why did everyone churn on 31JAN2022
 - Get prices of all services
 - Check for customer comments/sentiment
 - Check for local competition
