@@ -221,10 +221,14 @@ def pred_csv():
         rfc = RFC(max_depth=7, random_state=100)
         rfc.fit(x_train, y_train)
         model = rfc.predict(x_test)
-        predictions = test[['customer_id', 'churn']]
-        predictions['predictions'] = model
-        predictions.to_csv('predictions.csv')
-        return predictions
+        probab = rfc.predict_proba(x_test)
+        yesprob = probab[:, 1]
+        predictions = test['customer_id']
+        pred_df = pd.DataFrame(predictions)
+        pred_df['probability_yes'] = yesprob
+        pred_df['prediction'] = model
+        pred_df.to_csv('predictions.csv')
+        return pd.read_csv('predictions.csv', index_col=0)
 
 # =======================================================================================================
 # pred_csv END
