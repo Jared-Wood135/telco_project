@@ -46,29 +46,71 @@ import prepare
 # explore START
 # =======================================================================================================
 
-def explore():
+def explore1():
     '''
-    Returns the top 5 features based on lowest p-value and visualizes them along with their p-value
+    Return 1st key visualization
     '''
     telco = prepare.prep_telco()
-    top5 = [
-        'contract_type',
-        'sign_year',
-        'tenure',
-        'internet_service_type',
-        'payment_type'
-    ]
-    for x in top5:
-        sns.histplot(data=telco, x=x, hue='churn', multiple='dodge')
-        plt.title(f'{x} vs. churn')
-        plt.show()
-        observed = pd.crosstab(telco[x], telco.churn)
-        alpha = 0.05
-        p_val = stats.chi2_contingency(observed)[1]
-        if alpha > p_val:
-            print(f'\033[32m{x}\033[0m p_val: {p_val}\n')
-        else:
-            print(f'\033[31m{x}\033[0m does not have an impact: {p_val}\n')
+    sns.boxplot(data=telco, x='tenure', y='churn')
+    plt.title('Customer Tenure vs. Customer Churn')
+    plt.show()
+    observed = pd.crosstab(telco.tenure, telco.churn)
+    p_val = stats.chi2_contingency(observed)[1]
+    print(f'\033[32mTenure p_val\033[0m: {p_val:.3}\n')
+    
+def explore2():
+    '''
+    Return 2nd key visualization
+    '''
+    telco = prepare.prep_telco()
+    sns.histplot(data=telco, x='sign_year', hue='churn', multiple='dodge', kde=True)
+    plt.title('Customer Signup Year vs. Customer Churn')
+    plt.show()
+    observed = pd.crosstab(telco.sign_year, telco.churn)
+    p_val = stats.chi2_contingency(observed)[1]
+    print(f'\033[32mSignup Year p_val\033[0m: {p_val:.3}\n')
+
+def explore3():
+    '''
+    Return 2nd key visualization
+    '''
+    telco = prepare.prep_telco()
+    sns.barplot(data=telco, x='sign_year', y='monthly_charges')
+    plt.title('Customer Monthly Charges(USD) vs. Customer Signup Year')
+    plt.show()
+
+def explore4():
+    '''
+    Return 2nd key visualization
+    '''
+    telco = prepare.prep_telco()
+    sns.histplot(data=telco, x='total_extra_services', hue='churn', multiple='dodge', kde=True)
+    plt.title('Customer Internet add-ons vs. Customer Churn')
+    plt.show()
+    observed = pd.crosstab(telco.total_extra_services, telco.churn)
+    p_val = stats.chi2_contingency(observed)[1]
+    print(f'\033[32mTotal Extra Services p_val\033[0m: {p_val:.3}\n')
+
+def explore5():
+    '''
+    Return 2nd key visualization
+    '''
+    telco = prepare.prep_telco()
+    sns.histplot(data=telco, x='contract_type', hue='churn', multiple='dodge')
+    plt.title('Customer Contract Type vs. Customer Churn')
+    plt.show()
+    observed = pd.crosstab(telco.contract_type, telco.churn)
+    p_val = stats.chi2_contingency(observed)[1]
+    print(f'\033[32mContract Type p_val\033[0m: {p_val:.3}\n')
+
+def explore6():
+    '''
+    Return 2nd key visualization
+    '''
+    telco = prepare.prep_telco()
+    sns.histplot(data=telco, x='sign_year', hue='contract_type', multiple='dodge', kde=True)
+    plt.title('Customer Signup Year vs. Customer Contract Type')
+    plt.show()
 
 # =======================================================================================================
 # explore END

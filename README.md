@@ -274,7 +274,7 @@ Questions:
 - Services Emphasis:
     - Internet Services:
         - No internet or DSL
-        - No internet or at least bundle 3 add-ons
+        - If internet, then bundle at least 3 add-ons
 - Payments:
     - DO NOT ALLOW ELECTRONIC CHECK
 - Contracts:
@@ -282,13 +282,21 @@ Questions:
 <br><br>
 <h4><b>If I Had More Time:</b></h4>
 
-- Why does everyone only signup on the 21st of any given month/year
-- Why did everyone churn on 31JAN2022
-- What happened in 2021
-- Why is tenure getting shorter, but monthly_charges are dropping
-- Get prices of all services
-- Check for customer comments/sentiment
-- Check for local competition
-- Check for local 'common knowledge'/'norm'
-- Check advertisements
+- For customer service:
+    - Why does everyone only signup on the 21st of any given month/year
+    - Why did everyone churn on 31JAN2022
+    - What happened in 2021
+    - Assess customer comments/sentiment:
+        - Are our services adequate for their price
+        - Are our services performing properly or breaking
+        - Why did the customer signup/churn
+- For marketing:
+    - What are the prices of all services/bundles we provide
+    - What advertisements are we running
+- Further exploration:
+    - Why is month-to-month contract popular
+    - Why is tenure getting shorter, but monthly charges dropping
+    - Are extra services necessary or a burden
+    - Compare local competition if any
+    - Establish local 'common knowledge'/'norm'
 <br><br>
